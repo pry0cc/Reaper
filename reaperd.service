@@ -1,0 +1,8 @@
+[Unit]
+Description=Reaper the auto-deletion daemon
+
+[Service]
+ExecStart=/usr/bin/reaperd
+
+[Install]
+WantedBy=multi-user.target
