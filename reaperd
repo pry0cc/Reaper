@@ -1,0 +1,16 @@
+#!/bin/bash
+
+while true
+do
+    time=$(date +%s)
+    expiry=$(cat /etc/deathstamp)
+
+    if [[ $expiry -lt $time ]]
+    then
+        echo "Deleting instance '$(hostname)' and imploding..."
+    else
+        seconds_to_death=$(expr $(cat /etc/deathstamp) - $(date +%s))
+        echo "Seconds left until expiry: $seconds_to_death"
+    fi
+    sleep 10
+done
