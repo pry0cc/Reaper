@@ -8,6 +8,8 @@ do
     if [[ $expiry -lt $time ]]
     then
         echo "Deleting instance '$(hostname)' and imploding..."
+        id=$(curl -s http://169.254.169.254/metadata/v1/id)
+         /snap/bin/doctl compute droplet delete $id
     else
         seconds_to_death=$(expr $(cat /etc/deathstamp) - $(date +%s))
         echo "Seconds left until expiry: $seconds_to_death"
