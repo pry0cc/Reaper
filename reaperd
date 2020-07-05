@@ -1,5 +1,8 @@
 #!/bin/bash
 
+notified_10=false
+notified_1=false
+
 while true
 do
     time=$(date +%s)
@@ -13,6 +16,17 @@ do
     else
         seconds_to_death=$(expr $(cat /etc/deathstamp) - $(date +%s))
         echo "Seconds left until expiry: $seconds_to_death"
+    	if [[ $seconds_to_death -lt 600 && "$notified_10" == "false" ]]
+    	then
+	    /home/op/bin/telegram "Instance: '$(hostname)' will expire in 10 minutes\!"
+    	notified_10=true
+	fi
+
+	if [[ $seconds_to_death -lt 30 && "$notified_1" == "false" ]]
+	then
+	    /home/op/bin/telegram "Instance: '$(hostname)' self destructing in 30 seconds\!"
+    	notified_1=true
+	fi
     fi
-    sleep 10
+    sleep 5
 done
